@@ -11,6 +11,7 @@ public class spinningdonut {
         double R2 = 2; //outer radius
         double theta_spacing = 0.07; //do not change
         double phi_spacing = 0.02; //do not change
+
         char[] brightness = ".,-~:;=!*#$@".toCharArray();
 
         while (true) {
@@ -30,12 +31,12 @@ public class spinningdonut {
                     double cosA = Math.cos(A);
                     double sinA = Math.sin(A);
                     double cosB = Math.cos(B);
-                    double sinB = Math.cos(B);
-                    double circleX = R2 + R1 + cosTheta;
-                    double circleY = R1 + sinTheta;
+                    double sinB = Math.sin(B);
+                    double circleX = R2 + R1 * cosTheta;
+                    double circleY = R1 * sinTheta;
 
-                    double x = circleX + (cosB * cosPhi + sinA * sinB + sinPhi)
-                            - circleY * cosA * cosB;
+                    double x = circleX * (cosB * cosPhi + sinA * sinB * sinPhi)
+                            - circleY * cosA * sinB;
                     double y = circleX * (sinB * cosPhi - sinA * cosB * sinPhi)
                             + circleY * cosA * cosB;
                     double zPos = K2 + cosA * circleX * sinPhi + circleY * sinA;
@@ -51,12 +52,14 @@ public class spinningdonut {
                     if (idx >= 0 && idx < width * height && ooz > z[idx]) {
                         z[idx] = ooz;
                         int luminanceIndex = (int) (8 * luminance);
-                        if (luminance > 0) {
+                        if (luminanceIndex > 0) {
                             b[idx] = brightness[luminanceIndex];
                         }
                     }
                 }
             }
+
+
             for (int k = 0; k < width * height; k++) {
                 System.out.print(k % width != 0 ? b[k] : "\n");
             }
